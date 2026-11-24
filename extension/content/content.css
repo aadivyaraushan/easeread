@@ -1,0 +1,354 @@
+/* EaseRead scoped helper styles — never collides with host webpage styles */
+
+.easeread-bionic-wrap {
+  font-style: inherit;
+}
+
+.easeread-anchor {
+  font-weight: 700 !important;
+  font-style: normal !important;
+  letter-spacing: inherit;
+}
+
+.easeread-chunk-block {
+  display: block;
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.easeread-chunk-block:last-child {
+  margin-bottom: 0;
+}
+
+/* Subtle color tint veil for pages with stubborn backgrounds */
+#easeread-tint-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483640;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Reading ruler overlay */
+#easeread-ruler-root {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483642;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#easeread-ruler-root.easeread-visible {
+  opacity: 1;
+}
+
+.easeread-ruler-shade {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  background: rgba(15, 20, 22, var(--er-ruler-dim, 0.22));
+  will-change: transform;
+  pointer-events: none;
+}
+
+.easeread-ruler-band {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: var(--er-ruler-height, 44px);
+  background: var(--er-ruler-tint, rgba(230, 166, 56, 0.14));
+  border-top: 1px solid var(--er-ruler-edge, rgba(196, 134, 24, 0.45));
+  border-bottom: 2px solid var(--er-ruler-edge, rgba(196, 134, 24, 0.7));
+  box-sizing: border-box;
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* Keyboard feedback toast */
+#easeread-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 2147483647;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: #1E5C58;
+  color: #FAF6EB;
+  font-family: "EaseRead Lexend", Verdana, -apple-system, sans-serif !important;
+  font-size: 14px !important;
+  line-height: 20px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: translate3d(0, 12px, 0);
+  pointer-events: none;
+  transition:
+    opacity 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#easeread-toast.easeread-toast-show {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Distraction-Free Clean Reader View */
+#easeread-reader-root {
+  all: initial;
+  position: fixed;
+  inset: 0;
+  z-index: 2147483645;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: var(--er-bg, #FAF6EB);
+  color: var(--er-text, #23201C);
+  font-family: var(--er-font, "EaseRead OpenDyslexic", Verdana, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+  opacity: 0;
+  transition: opacity 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#easeread-reader-root.easeread-reader-open {
+  opacity: 1;
+}
+
+#easeread-reader-root *,
+#easeread-reader-root *::before,
+#easeread-reader-root *::after {
+  box-sizing: border-box;
+}
+
+.easeread-reader-nav {
+  position: sticky;
+  top: 16px;
+  z-index: 10;
+  max-width: 760px;
+  margin: 16px auto 0;
+  padding: 8px 12px;
+  border-radius: 16px;
+  background-color: var(--er-surface, #F1EBDC);
+  border: 1px solid var(--er-border, #DFD7C2);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-family: "EaseRead Lexend", Verdana, -apple-system, sans-serif;
+}
+
+.easeread-reader-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.easeread-reader-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  color: var(--er-text, #23201C);
+  padding: 0 4px;
+}
+
+.easeread-reader-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background-color: #1E5C58;
+  flex-shrink: 0;
+}
+
+.easeread-reader-btn {
+  appearance: none;
+  border: 1px solid var(--er-border, #DFD7C2);
+  background-color: var(--er-bg, #FAF6EB);
+  color: var(--er-text, #23201C);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-family: "EaseRead Lexend", Verdana, -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition:
+    background-color 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.easeread-reader-btn:hover {
+  border-color: var(--er-link, #175955);
+}
+
+.easeread-reader-btn:active {
+  transform: scale(0.98);
+}
+
+.easeread-reader-btn[aria-pressed="true"],
+.easeread-reader-btn.easeread-btn-primary {
+  background-color: #1E5C58;
+  border-color: #1E5C58;
+  color: #FAF6EB;
+}
+
+.easeread-reader-select {
+  appearance: none;
+  border: 1px solid var(--er-border, #DFD7C2);
+  background-color: var(--er-bg, #FAF6EB);
+  color: var(--er-text, #23201C);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-family: "EaseRead Lexend", Verdana, -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.easeread-reader-article {
+  max-width: 64ch;
+  margin: 32px auto 96px;
+  padding: 0 24px;
+  text-align: left;
+  font-family: var(--er-font, "EaseRead OpenDyslexic", Verdana, sans-serif);
+  font-size: var(--er-reader-size, 18px);
+  line-height: var(--er-line-height, 1.8);
+  letter-spacing: var(--er-letter-spacing, 0.06em);
+  word-spacing: var(--er-word-spacing, 0.18em);
+}
+
+.easeread-reader-meta {
+  font-family: "EaseRead Lexend", Verdana, -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--er-muted, #595349);
+  margin-bottom: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.easeread-reader-title {
+  font-size: 1.75em;
+  line-height: 1.3;
+  font-weight: 700;
+  margin: 0 0 24px;
+  color: var(--er-text, #23201C);
+  text-wrap: balance;
+}
+
+.easeread-reader-body h2,
+.easeread-reader-body h3,
+.easeread-reader-body h4 {
+  margin: 1.8em 0 0.7em;
+  line-height: 1.35;
+  font-weight: 700;
+  color: var(--er-text, #23201C);
+  text-wrap: balance;
+}
+
+.easeread-reader-body h2 {
+  font-size: 1.35em;
+}
+
+.easeread-reader-body h3 {
+  font-size: 1.18em;
+}
+
+.easeread-reader-body p {
+  margin: 0 0 1.25em;
+  text-align: left;
+  font-style: normal;
+  text-wrap: pretty;
+}
+
+.easeread-reader-body ul,
+.easeread-reader-body ol {
+  margin: 0 0 1.4em;
+  padding-left: 1.5em;
+}
+
+.easeread-reader-body li {
+  margin-bottom: 0.65em;
+}
+
+.easeread-reader-body blockquote {
+  margin: 1.5em 0;
+  padding: 16px 20px;
+  background-color: var(--er-surface, #F1EBDC);
+  border: 1px solid var(--er-border, #DFD7C2);
+  border-radius: 12px;
+  font-style: normal;
+}
+
+.easeread-reader-body a {
+  color: var(--er-link, #175955);
+  text-decoration: underline;
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1.5px;
+}
+
+.easeread-reader-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin: 24px 0;
+  display: block;
+}
+
+.easeread-tts-sentence {
+  border-radius: 4px;
+  padding: 2px 3px;
+  margin: 0 -2px;
+  cursor: pointer;
+  transition: background-color 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.easeread-tts-sentence:hover {
+  background-color: var(--er-surface, #F1EBDC);
+}
+
+.easeread-tts-sentence.easeread-tts-active {
+  background-color: var(--er-highlight, #F6D983);
+  color: var(--er-text, #23201C);
+}
+
+@media (max-width: 640px) {
+  .easeread-reader-nav {
+    margin: 8px 8px 0;
+    padding: 8px;
+    border-radius: 12px;
+  }
+
+  .easeread-reader-article {
+    margin: 24px auto 80px;
+    padding: 0 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #easeread-tint-overlay,
+  #easeread-ruler-root,
+  #easeread-toast,
+  #easeread-reader-root,
+  .easeread-reader-btn,
+  .easeread-tts-sentence {
+    transition-duration: 0.01ms !important;
+  }
+}

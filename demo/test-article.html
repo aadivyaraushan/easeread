@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EaseRead Live Demo — Reading Comfort Playground</title>
+  <link rel="stylesheet" href="../extension/content/content.css">
+  <style>
+    /* Intentionally dense, typical news/encyclopedia page BEFORE EaseRead helps */
+    body {
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      color: #000000;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 16px;
+      line-height: 1.38;
+    }
+
+    .demo-bar {
+      position: sticky;
+      top: 0;
+      z-index: 9999;
+      background: #181818 !important;
+      color: #FAF6EB !important;
+      padding: 12px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif !important;
+      letter-spacing: normal !important;
+      word-spacing: normal !important;
+    }
+
+    .demo-bar button {
+      appearance: none;
+      border: 1px solid #3D3D3D;
+      background: #272727;
+      color: #FAF6EB;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .demo-bar button.primary {
+      background: #1E5C58;
+      border-color: #2A7B75;
+    }
+
+    .page-wrap {
+      max-width: 780px;
+      margin: 40px auto 96px;
+      padding: 0 24px;
+    }
+
+    article p {
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    h1 {
+      font-size: 34px;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      font-size: 22px;
+      margin-top: 28px;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 14px 18px;
+      border: 1px solid #dddddd;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-bar" id="demo-bar">
+    <strong>EaseRead Interactive Preview:</strong>
+    <button type="button" class="primary" data-demo="classic">Classic (OpenDyslexic)</button>
+    <button type="button" data-demo="gentle">Calm (Lexend)</button>
+    <button type="button" data-demo="focus">Focus (Atkinson + Anchors + Ruler)</button>
+    <button type="button" data-demo="dark">Soft Dark</button>
+    <button type="button" data-demo="reader">Open Clean Reader View</button>
+    <button type="button" data-demo="off">Original Page</button>
+  </div>
+
+  <div class="page-wrap">
+    <article>
+      <h1>Why Typography and Visual Rhythm Transform Everyday Web Reading</h1>
+      <p>
+        Most websites are still designed around tight columns, stark pure white backgrounds, justified margins, and narrow sans serif or serif fonts that pack letters closely together. For someone with dyslexia, those default web styles can trigger visual crowding, cause mirrored characters like <em>b, d, p, and q</em> to blur together, and create distracting rivers of white space running down long paragraphs. When Dr. Emily Carter studied online comprehension across U.S. university students in 2024, she noticed that modest adjustments to letter spacing, line height, and background contrast reduced reading fatigue within minutes. Even better, readers reported feeling far less intimidated when dense walls of text were gently separated into shorter, breathable thoughts.
+      </p>
+
+      <h2>Small Visual Changes Add Up Quickly</h2>
+      <p>
+        Choosing a font with heavier letter bottoms or open counters helps the eye recognize each character without second guessing. Pairing that typeface with warm cream or soft peach paper tones lowers screen glare compared to pure white pages. Meanwhile, replacing italicized phrases with steady upright emphasis prevents letters from leaning into one another and breaking reading flow.
+      </p>
+
+      <blockquote>
+        “Reading should feel calm and effortless, not like decoding a wall of static noise. When the page gives words room to breathe, comprehension comes naturally.”
+      </blockquote>
+
+      <h2>Tools That Support Focus Without Getting in the Way</h2>
+      <p>
+        Some days a simple font and warm background tint are all you need, while other days a dense research article or long news story calls for extra focus support. Turning on bold word anchors gives your eyes a natural landing spot at the beginning of each word, and enabling the reading ruler frames the exact line you are reading so you never accidentally skip back up or jump ahead. Whenever a website feels cluttered with sidebars and popups, Clean Reader View distills the article into a single peaceful column and lets you click any sentence to listen aloud at your own pace.
+      </p>
+
+      <ul>
+        <li>Switch between OpenDyslexic, Lexend, Atkinson Hyperlegible, and Clean Sans in one tap.</li>
+        <li>Pick from six calm paper tints including Warm Cream, Soft Peach, Calm Mint, Soft Sky, and Soft Dark.</li>
+        <li>Press <code>Option + D</code> to toggle EaseRead, <code>Option + R</code> for the Reading Ruler, or <code>Option + V</code> for Clean Reader View.</li>
+      </ul>
+    </article>
+  </div>
+
+  <script>
+    window.__EASEREAD_FONT_BASE__ = "../extension/fonts";
+  </script>
+  <script src="../extension/shared/settings.js"></script>
+  <script src="../extension/content/content.js"></script>
+  <script>
+    document.getElementById("demo-bar").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-demo]");
+      if (!btn || !window.EaseReadPage) return;
+      const mode = btn.dataset.demo;
+      const Config = window.EaseReadConfig;
+      const current = window.EaseReadPage.getSettings();
+
+      if (mode === "off") {
+        window.EaseReadPage.apply(Object.assign({}, current, { enabled: false, readingRuler: false, siteOverrides: {} }));
+      } else if (mode === "reader") {
+        window.EaseReadPage.toggleReader();
+      } else if (mode === "dark") {
+        window.EaseReadPage.apply(Object.assign({}, current, { enabled: true, autoApply: true, theme: "dark", siteOverrides: {} }));
+      } else if (Config.PRESETS[mode]) {
+        const next = Config.applyPreset(Object.assign({}, current, { enabled: true, autoApply: true, siteOverrides: {} }), mode);
+        window.EaseReadPage.apply(next);
+      }
+    });
+  </script>
+</body>
+</html>

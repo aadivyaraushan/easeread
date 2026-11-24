@@ -1,0 +1,6 @@
+.DS_Store
+EaseReadApp/build/
+dist/
+*.xcuserdata/
+xcuserdata/
+DerivedData/
